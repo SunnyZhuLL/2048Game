@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta content="width=device-width, initial-scale=1,maximum-scale=1,maximum-scale=1, user-scalable=no" name="viewport">
+    <title></title>
+    <style>
+        *{margin: 0;padding: 0;}
+        ul{list-style: none;}
+        .ui-loader{ display:none}
+        .list{
+            overflow: hidden;
+        }
+        .list .item{
+            border-top: solid 1px #d0d0d0;
+            border-bottom: solid 1px #d0d0d0;
+            margin-top:15px;
+            width: 120%;
+            overflow: hidden;
+        }
+        .list .item div{
+            padding-left:10px;
+            height: 40px;
+            line-height: 40px;
+            overflow: hidden;
+        }
+        .list .item.selected{
+            -webkit-transform: translate(-16%,0);
+            -webkit-transition:all 0.3s linear;
+            transform: translate(-16%,0);
+            transition:all 0.3s linear;
+        }
+        .list .item span{
+            float: left;
+        }
+        .list .item a{
+            display: block;
+            float: right;
+            width: 15%;
+            background-color: #f00b0d;
+            text-align: center;
+            text-decoration: none;
+            color: #FFFFFF;
+            margin-left:15px;
+        }
+    </style>
+</head>
+<body>
+<ul class="list" id="list">
+    <!--<li>
+        <span>123</span>
+        <a href="javascript:void(0);">删除</a>
+    </li>-->
+</ul>
+</body>
+<script src="jquery-1.11.1.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script>
+    $(document).ready(function(){
+        for(var i =0;i<10;i++){
+            var cont = '<li class="item" id="item'+i+'">' +
+                    '<div>'+
+                    '<span>123</span>'+
+                    '<a href="javascript:void(0);" class="remove">删除</a>' +
+                    '</div></li>';
+            $("#list").append(cont);
+        }
+        $('.item').each(function(){
+            var h = $(this).height();
+            $(this).find('a').height(h+'px').css("line-height",h+'px');
+        })
+        $('.item').on('swipeleft',function(){
+            $(this).addClass('selected').siblings().removeClass('selected');
+            $(this).find('a.remove').on('click',function(){
+                var itemId = $(this).parents('.item').attr('id');
+                //执行删除效果
+                $("#"+itemId).css("border","0");
+                $("#"+itemId).stop().animate({
+                    height:"0",
+                    margin:"0"
+                },300,function(){
+                    $(this).remove();
+                });
+
+            })
+
+        }).on('swiperight',function(){
+            $(this).removeClass('selected');
+        })
+
+    })
+</script>
+</html>
